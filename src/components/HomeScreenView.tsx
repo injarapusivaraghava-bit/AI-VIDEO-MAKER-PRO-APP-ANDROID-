@@ -235,10 +235,10 @@ export const HomeScreenView: React.FC<HomeScreenViewProps> = ({
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 flex flex-col gap-5 sm:gap-7">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-6 flex flex-col gap-4 sm:gap-6">
       {/* 1. Hero Section: Prominent Centered Logo at Top + App Name Below Logo */}
-      <section className="bg-white dark:bg-[#13161F] border border-slate-200 dark:border-white/10 rounded-2xl sm:rounded-3xl px-4 py-6 sm:p-8 flex flex-col items-center text-center gap-4">
-        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-slate-900 border-2 border-amber-500/50 shadow-xl overflow-hidden flex items-center justify-center shrink-0">
+      <section className="bg-white dark:bg-[#13161F] border border-slate-200 dark:border-white/10 rounded-2xl sm:rounded-3xl px-4 py-5 sm:p-8 flex flex-col items-center text-center gap-3.5 sm:gap-4">
+        <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-slate-900 border-2 border-amber-500/60 shadow-2xl overflow-hidden flex items-center justify-center shrink-0">
           <img
             src={APP_LOGO_URL}
             alt="AI VIDEO MAKER PRO Logo"
@@ -247,21 +247,21 @@ export const HomeScreenView: React.FC<HomeScreenViewProps> = ({
           />
         </div>
 
-        <div className="max-w-2xl flex flex-col items-center gap-2">
-          <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-slate-50 tracking-tight text-balance">
+        <div className="max-w-2xl flex flex-col items-center gap-1.5 sm:gap-2">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-50 tracking-tight text-balance">
             AI VIDEO MAKER PRO
           </h1>
-          <p className="text-xs sm:text-sm font-medium text-amber-600 dark:text-amber-400">
+          <p className="text-xs sm:text-sm font-semibold text-amber-600 dark:text-amber-400">
             {lang === 'te'
               ? 'మీ ఆరోగ్యం – మా ప్రాధాన్యత · Create Everything with AI'
               : 'Create Everything with AI · Bilingual Telugu & English Studio'}
           </p>
-          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             {lang === 'te'
               ? 'వీడియో, ఫోటో, ఆడియో, AI కథలు, YouTube షార్ట్స్ (9:16), లాంగ్ వీడియోలు (16:9) & 2D గేమ్‌లు అన్నీ ఒకే మొబైల్ యాప్‌లో.'
               : 'Video Maker & Editor, YouTube Shorts (9:16), Long Videos (16:9), Photo & Collage, Telugu/English AI Voice, Story Studio & 2D Game Maker.'}
           </p>
-          <div className="mt-1 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 dark:text-slate-400 font-mono-tabular">
+          <div className="mt-0.5 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 dark:text-slate-400 font-mono-tabular">
             <span>
               {lang === 'te' ? 'ప్రాజెక్టులు:' : 'Projects:'}{' '}
               <strong className="text-slate-900 dark:text-slate-100">{projectCount}</strong>
@@ -279,14 +279,14 @@ export const HomeScreenView: React.FC<HomeScreenViewProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-2xl pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 w-full max-w-2xl pt-1">
           <button
             type="button"
             onClick={scrollToApkSection}
             className="min-h-[48px] px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer shadow-sm transition-colors"
           >
             <Download className="w-4 h-4 shrink-0" />
-            <span>{lang === 'te' ? 'DOWNLOAD APK / యాప్' : 'DOWNLOAD APK'}</span>
+            <span>DOWNLOAD APK</span>
           </button>
 
           <button

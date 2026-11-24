@@ -51650,13 +51650,13 @@ var HomeScreenView = ({ lang, usageStats, projectCount, gameCount, apkStatus, an
 		}
 	];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 flex flex-col gap-5 sm:gap-7",
+		className: "max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-6 flex flex-col gap-4 sm:gap-6",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
-				className: "bg-white dark:bg-[#13161F] border border-slate-200 dark:border-white/10 rounded-2xl sm:rounded-3xl px-4 py-6 sm:p-8 flex flex-col items-center text-center gap-4",
+				className: "bg-white dark:bg-[#13161F] border border-slate-200 dark:border-white/10 rounded-2xl sm:rounded-3xl px-4 py-5 sm:p-8 flex flex-col items-center text-center gap-3.5 sm:gap-4",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-slate-900 border-2 border-amber-500/50 shadow-xl overflow-hidden flex items-center justify-center shrink-0",
+						className: "w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-slate-900 border-2 border-amber-500/60 shadow-2xl overflow-hidden flex items-center justify-center shrink-0",
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 							src: APP_LOGO_URL,
 							alt: "AI VIDEO MAKER PRO Logo",
@@ -51665,22 +51665,22 @@ var HomeScreenView = ({ lang, usageStats, projectCount, gameCount, apkStatus, an
 						})
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "max-w-2xl flex flex-col items-center gap-2",
+						className: "max-w-2xl flex flex-col items-center gap-1.5 sm:gap-2",
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-								className: "text-2xl sm:text-4xl font-bold text-slate-900 dark:text-slate-50 tracking-tight text-balance",
+								className: "text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-50 tracking-tight text-balance",
 								children: "AI VIDEO MAKER PRO"
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-xs sm:text-sm font-medium text-amber-600 dark:text-amber-400",
+								className: "text-xs sm:text-sm font-semibold text-amber-600 dark:text-amber-400",
 								children: lang === "te" ? "మీ ఆరోగ్యం – మా ప్రాధాన్యత · Create Everything with AI" : "Create Everything with AI · Bilingual Telugu & English Studio"
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-sm text-slate-600 dark:text-slate-300 leading-relaxed",
+								className: "text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed",
 								children: lang === "te" ? "వీడియో, ఫోటో, ఆడియో, AI కథలు, YouTube షార్ట్స్ (9:16), లాంగ్ వీడియోలు (16:9) & 2D గేమ్‌లు అన్నీ ఒకే మొబైల్ యాప్‌లో." : "Video Maker & Editor, YouTube Shorts (9:16), Long Videos (16:9), Photo & Collage, Telugu/English AI Voice, Story Studio & 2D Game Maker."
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "mt-1 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 dark:text-slate-400 font-mono-tabular",
+								className: "mt-0.5 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 dark:text-slate-400 font-mono-tabular",
 								children: [
 									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
 										lang === "te" ? "ప్రాజెక్టులు:" : "Projects:",
@@ -51719,13 +51719,13 @@ var HomeScreenView = ({ lang, usageStats, projectCount, gameCount, apkStatus, an
 						]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-2xl pt-2",
+						className: "grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 w-full max-w-2xl pt-1",
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 								type: "button",
 								onClick: scrollToApkSection,
 								className: "min-h-[48px] px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer shadow-sm transition-colors",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Download, { className: "w-4 h-4 shrink-0" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: lang === "te" ? "DOWNLOAD APK / యాప్" : "DOWNLOAD APK" })]
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Download, { className: "w-4 h-4 shrink-0" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "DOWNLOAD APK" })]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 								type: "button",
@@ -61144,7 +61144,9 @@ function App() {
 				setUsageStats(data.usageStats);
 			}
 		}).catch(() => {});
-		apiFetch("/api/apk/status").then((r) => safeParseJson(r)).then((data) => {
+		const controller = new AbortController();
+		const timeoutId = window.setTimeout(() => controller.abort(), 5e3);
+		apiFetch("/api/apk/status", { signal: controller.signal }).then((r) => safeParseJson(r)).then((data) => {
 			if (!active) return;
 			setApkStatus(data || {
 				available: false,
@@ -61164,11 +61166,13 @@ function App() {
 				downloadUrl: null
 			});
 		});
-		apiFetch("/api/android-project/status").then((r) => safeParseJson(r)).then((data) => {
+		apiFetch("/api/android-project/status", { signal: controller.signal }).then((r) => safeParseJson(r)).then((data) => {
 			if (active && data) setAndroidProjectStatus(data);
 		}).catch(() => {});
 		return () => {
 			active = false;
+			window.clearTimeout(timeoutId);
+			controller.abort();
 		};
 	}, []);
 	(0, import_react.useEffect)(() => {
@@ -61649,11 +61653,11 @@ function App() {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "border-b border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-[#0E1118]",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "max-w-7xl mx-auto px-3 sm:px-6 py-2 sm:py-2.5 flex flex-col lg:flex-row lg:items-center justify-between gap-2.5 text-xs",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: `max-w-7xl mx-auto px-3 sm:px-6 py-2 flex gap-2 text-xs ${activeTab === "studio" || activeTab === "shorts" ? "flex-col lg:flex-row lg:items-center justify-between" : "items-center justify-between"}`,
+					children: [activeTab === "studio" || activeTab === "shorts" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "flex items-center gap-1 p-1 bg-white dark:bg-[#13161F] border border-slate-200 dark:border-white/10 rounded-xl overflow-x-auto max-w-full",
 						children: suiteTools.map((tool) => {
-							const isSelected = (activeTab === "studio" || activeTab === "shorts") && studioTool === tool.id;
+							const isSelected = studioTool === tool.id;
 							return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 								type: "button",
 								onClick: () => {
@@ -61664,8 +61668,14 @@ function App() {
 								children: [tool.icon, /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: tool.label })]
 							}, tool.id);
 						})
+					}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "hidden sm:flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 min-w-0",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "font-medium truncate",
+							children: lang === "te" ? "మన ఆరోగ్య సేవలు · AI స్టూడియో" : "Telugu & English AI Creator Studio"
+						})
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex items-center gap-2 flex-wrap justify-between sm:justify-end",
+						className: `flex items-center gap-2 flex-wrap justify-between ${activeTab === "studio" || activeTab === "shorts" ? "lg:justify-end w-full lg:w-auto" : "sm:justify-end w-full sm:w-auto"}`,
 						children: [
 							user ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex items-center gap-2",

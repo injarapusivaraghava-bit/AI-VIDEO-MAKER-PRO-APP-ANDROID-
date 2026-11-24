@@ -335,7 +335,10 @@ export default function App() {
       })
       .catch(() => {});
 
-    apiFetch('/api/apk/status')
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 5000);
+
+    apiFetch('/api/apk/status', { signal: controller.signal })
       .then((r) => safeParseJson<ApkStatusInfo>(r))
       .then((data) => {
         if (!active) return;
@@ -363,7 +366,7 @@ export default function App() {
         }
       });
 
-    apiFetch('/api/android-project/status')
+    apiFetch('/api/android-project/status', { signal: controller.signal })
       .then((r) => safeParseJson<AndroidProjectStatusInfo>(r))
       .then((data) => {
         if (active && data) {
@@ -374,6 +377,8 @@ export default function App() {
 
     return () => {
       active = false;
+      window.clearTimeout(timeoutId);
+      controller.abort();
     };
   }, []);
 
@@ -931,32 +936,52 @@ export default function App() {
 
       {/* Workspace Sub-Toolbar */}
       <div className="border-b border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-[#0E1118]">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2 sm:py-2.5 flex flex-col lg:flex-row lg:items-center justify-between gap-2.5 text-xs">
-          <div className="flex items-center gap-1 p-1 bg-white dark:bg-[#13161F] border border-slate-200 dark:border-white/10 rounded-xl overflow-x-auto max-w-full">
-            {suiteTools.map((tool) => {
-              const isSelected = (activeTab === 'studio' || activeTab === 'shorts') && studioTool === tool.id;
-              return (
-                <button
-                  key={tool.id}
-                  type="button"
-                  onClick={() => {
-                    setActiveTab('studio');
-                    setStudioTool(tool.id);
-                  }}
-                  className={`min-h-[34px] px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer transition-colors ${
-                    isSelected
-                      ? 'bg-amber-500 text-slate-950 font-semibold'
-                      : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
-                  }`}
-                >
-                  {tool.icon}
-                  <span>{tool.label}</span>
-                </button>
-              );
-            })}
-          </div>
+        <div
+          className={`max-w-7xl mx-auto px-3 sm:px-6 py-2 flex gap-2 text-xs ${
+            activeTab === 'studio' || activeTab === 'shorts'
+              ? 'flex-col lg:flex-row lg:items-center justify-between'
+              : 'items-center justify-between'
+          }`}
+        >
+          {(activeTab === 'studio' || activeTab === 'shorts') ? (
+            <div className="flex items-center gap-1 p-1 bg-white dark:bg-[#13161F] border border-slate-200 dark:border-white/10 rounded-xl overflow-x-auto max-w-full">
+              {suiteTools.map((tool) => {
+                const isSelected = studioTool === tool.id;
+                return (
+                  <button
+                    key={tool.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveTab('studio');
+                      setStudioTool(tool.id);
+                    }}
+                    className={`min-h-[34px] px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer transition-colors ${
+                      isSelected
+                        ? 'bg-amber-500 text-slate-950 font-semibold'
+                        : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
+                    }`}
+                  >
+                    {tool.icon}
+                    <span>{tool.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 min-w-0">
+              <span className="font-medium truncate">
+                {lang === 'te' ? 'మన ఆరోగ్య సేవలు · AI స్టూడియో' : 'Telugu & English AI Creator Studio'}
+              </span>
+            </div>
+          )}
 
-          <div className="flex items-center gap-2 flex-wrap justify-between sm:justify-end">
+          <div
+            className={`flex items-center gap-2 flex-wrap justify-between ${
+              activeTab === 'studio' || activeTab === 'shorts'
+                ? 'lg:justify-end w-full lg:w-auto'
+                : 'sm:justify-end w-full sm:w-auto'
+            }`}
+          >
             {user ? (
               <div className="flex items-center gap-2">
                 <span className="hidden sm:inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium">
