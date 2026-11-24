@@ -1,0 +1,103 @@
+name: Build Android Debug APK (Capacitor)
+
+on:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      api_base_url:
+        description: 'Optional hosted backend URL for AI features inside APK (leave blank for local-only mode)'
+        required: false
+        default: ''
+      publish_release:
+        description: 'Publish direct .apk download on GitHub Releases (easy phone install without unzipping)'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-android-debug-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup Java JDK 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install Node dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --no-audit --no-fund
+          fi
+
+      - name: Build web bundle (dist/)
+        env:
+          VITE_API_BASE_URL: ${{ github.event.inputs.api_base_url || vars.VITE_API_BASE_URL || '' }}
+        run: npm run build
+
+      - name: Sync web assets to Capacitor Android
+        run: npx cap sync android
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x android/gradlew
+
+      - name: Build Android Debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Verify APK output & checksum
+        run: |
+          APK_PATH="android/app/build/outputs/apk/debug/app-debug.apk"
+          if [ ! -f "$APK_PATH" ]; then
+            echo "Error: Expected debug APK not found at $APK_PATH"
+            exit 1
+          fi
+          cp "$APK_PATH" AI-VIDEO-MAKER-PRO-debug.apk
+          ls -lh "$APK_PATH" AI-VIDEO-MAKER-PRO-debug.apk
+          sha256sum AI-VIDEO-MAKER-PRO-debug.apk
+
+      - name: Upload Debug APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AI-VIDEO-MAKER-PRO-debug-apk
+          path: AI-VIDEO-MAKER-PRO-debug.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish Direct APK to GitHub Releases (Phone Install Ready)
+        if: ${{ (github.event_name == 'workflow_dispatch' && inputs.publish_release) || startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || 'apk-latest' }}
+          name: AI VIDEO MAKER PRO - Android APK (${{ github.run_number }})
+          body: |
+            Automated Android Debug APK built with Capacitor 8 & Gradle.
+            Tap **AI-VIDEO-MAKER-PRO-debug.apk** below on your Android phone to download and install directly.
+          prerelease: true
+          make_latest: false
+          files: |
+            AI-VIDEO-MAKER-PRO-debug.apk

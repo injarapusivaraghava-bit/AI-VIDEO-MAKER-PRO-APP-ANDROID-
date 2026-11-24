@@ -1,0 +1,64 @@
+{
+  "id": "/",
+  "name": "AI VIDEO MAKER PRO",
+  "short_name": "AI Video Pro",
+  "description": "Bilingual Telugu & English AI Video Maker, Shorts, Photo, Audio & 2D Game Studio ready for Android and Chrome.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "theme_color": "#0B0D12",
+  "background_color": "#0B0D12",
+  "categories": ["video", "photo", "productivity", "entertainment"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Create 9:16 Short",
+      "short_name": "9:16 Short",
+      "description": "Open the 9:16 YouTube Shorts Video Maker",
+      "url": "/?shortcut=shorts",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Create 16:9 Video",
+      "short_name": "16:9 Video",
+      "description": "Open the 16:9 Long Video Editor",
+      "url": "/?shortcut=video",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Photo & Collage",
+      "short_name": "Photo Studio",
+      "description": "Edit photos, collages & thumbnails",
+      "url": "/?shortcut=photo",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Projects & History",
+      "short_name": "Projects",
+      "description": "View saved videos, games & media downloads",
+      "url": "/?shortcut=projects",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
